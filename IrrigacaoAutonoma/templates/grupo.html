@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>Integrantes</title>
+  <link rel="icon" href="https://img.icons8.com/color/48/000000/potted-plant.png" type="image/png">
+
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='css/responsive.css') }}" rel="stylesheet" />
+
+  <style>
+    body {
+        background: linear-gradient(to bottom right, #e9f5e9, #d1e7d1);
+        font-family: 'Poppins', sans-serif;
+    }
+    .content-section {
+        padding: 60px 0;
+    }
+    .member-list {
+        list-style: none;
+        padding: 0;
+        font-size: 1.1rem;
+        line-height: 1.8;
+    }
+    .member-list li {
+        margin-bottom: 5px; 
+    }
+    .card-members {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        padding: 30px;
+    }
+    .header_section {
+      background-color: #254428;
+    }
+  </style>
+
+</head>
+
+<body class="sub_page"> <header class="header_section">
+    <div class="container-fluid">
+      <nav class="navbar navbar-expand-lg custom_nav-container">
+        <a class="navbar-brand" href="{{ url_for('main.dashboard') }}" style="color: white; font-weight: bold;">
+          Irrigação <span style="color:#41d310;">Automática</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" style="border-color: rgba(255,255,255,.1);">
+          <span class="navbar-toggler-icon" style="background-image: url('data:image/svg+xml;charset=utf8,%3Csvg viewBox=\'0 0 30 30\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath stroke=\'rgba(255, 255, 255, 0.5)\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-miterlimit=\'10\' d=\'M4 7h22M4 15h22M4 23h22\'/%3E%3C/svg%3E');"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('main.dashboard') }}">Dashboard</a>
+            </li>
+            <li class="nav-item active"> <a class="nav-link" href="{{ url_for('main.grupo') }}">Contatos</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <section class="content-section">
+    <div class="container">
+      <div class="row justify-content-center"> <div class="col-md-8 col-lg-6"> <div class="card-members text-center"> <h2 class="mb-4" style="color: #347a38; font-weight: 600;">Integrantes do Projeto</h2>
+            <ul class="member-list">
+              <li><strong>Guilherme</li><strong>
+              <li><strong>Pedro Crispim</li></strong>
+              <li><strong>Robson Junior</li><strong>
+              <li><strong>Vinicius Santana</li><strong>
+            </ul>
+            <hr>
+             <h5 class="mt-4" style="color: #347a38" >Contatos - e-mail:</h5>
+             <strong><p> robson.junior@estudante.iftm.edu.br</p></strong>
+             <strong><p> robson.junior@estudante.iftm.edu.br</p></strong>
+             <strong><p> robson.junior@estudante.iftm.edu.br</p></strong>
+             <strong><p> robson.junior@estudante.iftm.edu.br</p></strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="info_section layout_padding2" style="background-color: #254428;">
+    <div class="container">
+      <div class="info_items">
+         <a href="#"><div class="item "><div class="img-box box-1"><img src="" alt=""></div><div class="detail-box"><p></p></div></div></a>
+         <a href="https://iftm.edu.br/uraparquetecnologico/"><div class="item "><div class="img-box box-2"><img src="" alt=""></div><div class="detail-box"><p>IFTM Campus UPT</p></div></div></a>
+         <a href="#"><div class="item "><div class="img-box box-3"><img src="" alt=""></div><div class="detail-box"><p></p></div></div></a>
+      </div>
+    </div>
+  </section>
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script> <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
