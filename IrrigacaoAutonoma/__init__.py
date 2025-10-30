@@ -34,7 +34,7 @@ class Configuracao(db.Model):
     
     id = db.Column(db.Integer, primary_key=True) # Geralmente id=1
     # Usaremos String para ENUM, pois SQLAlchemy tem peculiaridades com ENUM nativo
-    modo = db.Column(db.String(10), default='AUTOMATICO') # 'AUTOMATICO' ou 'MANUAL'
+    modo = db.Column(db.String(10), default='MANUAL') # 'AUTOMATICO' ou 'MANUAL'
     setpoint_umidade = db.Column(db.Float, default=60.0)
     comando_manual_bomba = db.Column(db.Boolean, default=False) # BOOLEAN (True/False ou 1/0)
 
@@ -67,7 +67,7 @@ def create_app(config=None):
             db.create_all()
             print("Tabelas criadas.")
 
-            config_inicial = Configuracao(id=1, modo='AUTOMATICO', setpoint_umidade=60.0, comando_manual_bomba=False)
+            config_inicial = Configuracao(id=1, modo='MANUAL', setpoint_umidade=60.0, comando_manual_bomba=False)
             db.session.add(config_inicial)
             db.session.commit()
             print("Configuração inicial inserida.")

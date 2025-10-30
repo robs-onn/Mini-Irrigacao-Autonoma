@@ -5,82 +5,128 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard - Irrigação Automática</title>
-  
+
   <link rel="icon" href="https://img.icons8.com/color/48/000000/potted-plant.png" type="image/png">
 
   <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
   <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
-  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet"> 
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
   <link href="{{ url_for('static', filename='css/responsive.css') }}" rel="stylesheet">
-  
+
   <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
-  
-  <style>    
+
+  <style>
     body {
-      
-      background: linear-gradient(to bottom right, #e9f5e9, #d1e7d1); 
+
+      background: linear-gradient(to bottom right, #e9f5e9, #d1e7d1);
       /* Ou background-image: url("{{ url_for('static', filename='images/sua_imagem_de_fundo.jpg') }}"); background-size: cover; */
-      font-family: 'Poppins', sans-serif; 
+      font-family: 'Poppins', sans-serif;
     }
+
     .dashboard-section {
       padding: 40px 0;
     }
+
     .card {
       margin-bottom: 20px;
-      border: none; 
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra suave */
+      border: none;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      /* Sombra suave */
     }
+
     .card-header {
-      background-color: #347a38; /* Verde mais escuro para cabeçalhos */
+      background-color: #347a38;
+      /* Verde mais escuro para cabeçalhos */
       color: white;
       font-weight: 600;
     }
+
     .card-title-sm {
-        font-size: 1rem;
-        font-weight: 600;
-        margin-bottom: 5px;
-        color: #347a38;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #347a38;
     }
+
     .status-value {
-        font-size: 1.8rem;
-        font-weight: 700;
-        color: #28a745; /* Verde Bootstrap Success */
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #28a745;
+      /* Verde Bootstrap Success */
     }
+
     .chart-container {
-        padding: 20px;
-        background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        margin-bottom: 20px;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
     }
-    #tabelaHistorico_wrapper { /* Estiliza o container da DataTable */
-        padding: 20px;
-        background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+    #tabelaHistorico_wrapper {
+      /* Estiliza o container da DataTable */
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     /* Estilos dos controles mantidos */
-    .custom-switch .custom-control-label::before { background-color: #dc3545; border-color: #dc3545; }
-    .custom-switch .custom-control-input:checked ~ .custom-control-label::before { background-color: #28a745; border-color: #28a745; }
-    input[type=range] { appearance: none ;-webkit-appearance: none; width: 100%; background: transparent; }
-    input[type=range]:focus { outline: none; }
-    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%; background: #41d310; cursor: pointer; margin-top: -6px; }
-    input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 8px; cursor: pointer; background: #ddd; border-radius: 5px; }
+    .custom-switch .custom-control-label::before {
+      background-color: #dc3545;
+      border-color: #dc3545;
+    }
+
+    .custom-switch .custom-control-input:checked~.custom-control-label::before {
+      background-color: #28a745;
+      border-color: #28a745;
+    }
+
+    input[type=range] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 100%;
+      background: transparent;
+    }
+
+    input[type=range]:focus {
+      outline: none;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      background: #41d310;
+      cursor: pointer;
+      margin-top: -6px;
+    }
+
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 8px;
+      cursor: pointer;
+      background: #ddd;
+      border-radius: 5px;
+    }
   </style>
 </head>
 
 <body>
-  <header class="header_section" style="background-color: #254428;"> <div class="container-fluid">
+  <header class="header_section" style="background-color: #254428;">
+    <div class="container-fluid">
       <nav class="navbar navbar-expand-lg custom_nav-container">
         <a class="navbar-brand" href="{{ url_for('main.dashboard') }}" style="color: white; font-weight: bold;">
           Irrigação <span style="color:#41d310;">Automática</span>
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" style="border-color: rgba(255,255,255,.1);">
-          <span class="navbar-toggler-icon" style="background-image: url('data:image/svg+xml;charset=utf8,%3Csvg viewBox=\'0 0 30 30\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath stroke=\'rgba(255, 255, 255, 0.5)\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-miterlimit=\'10\' d=\'M4 7h22M4 15h22M4 23h22\'/%3E%3C/svg%3E');"></span>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          style="border-color: rgba(255,255,255,.1);">
+          <span class="navbar-toggler-icon"
+            style="background-image: url('data:image/svg+xml;charset=utf8,%3Csvg viewBox=\'0 0 30 30\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath stroke=\'rgba(255, 255, 255, 0.5)\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-miterlimit=\'10\' d=\'M4 7h22M4 15h22M4 23h22\'/%3E%3C/svg%3E');"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto">
@@ -97,80 +143,82 @@
   </header>
 
   <section class="dashboard-section">
-    <div class="container-fluid px-4"> <div class="row">
+    <div class="container-fluid px-4">
+      <div class="row">
         <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-                <div class="card-header">Status Atual</div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-6 text-center">
-                             <div class="card-title-sm">Umidade Solo</div>
-                             <div class="status-value">
-                                {% if resultados %}{{ "%.1f"|format(resultados[0].umidade_solo) }}%{% else %}N/A{% endif %}
-                             </div>
-                        </div>
-                        <div class="col-6 text-center">
-                             <div class="card-title-sm">Luminosidade</div>
-                             <div class="status-value">
-                                {% if resultados %}{{ "%.0f"|format(resultados[0].luminosidade) }}{% else %}N/A{% endif %}
-                             </div>
-                        </div>
-                    </div>
-                     <hr>
-                     <p class="card-text text-muted text-center small">
-                        Última leitura: 
-                        {% if resultados %}
-                            {{ resultados[0].data_hora.strftime('%d/%m/%Y %H:%M:%S') }}
-                        {% else %}
-                            Nenhuma leitura registrada.
-                        {% endif %}
-                     </p>
+          <div class="card h-100">
+            <div class="card-header">Status Atual</div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-6 text-center">
+                  <div class="card-title-sm">Umidade Solo</div>
+                  <div class="status-value" id="status-umidade-valor">
+                    {% if resultados %}{{ "%.1f"|format(resultados[0].umidade_solo) }}%{% else %}N/A{% endif %}
+                  </div>
                 </div>
+                <div class="col-6 text-center">
+                  <div class="card-title-sm">Luminosidade</div>
+                  <div class="status-value" id="status-luz-valor">
+                    {% if resultados %}{{ "%.0f"|format(resultados[0].luminosidade) }}{% else %}N/A{% endif %}
+                  </div>
+                </div>
+              </div>
+              <hr>
+              <p class="card-text text-muted text-center small" id="status-ultima-leitura">
+                Última leitura:
+                {% if resultados %}
+                {{ resultados[0].data_hora.strftime('%d/%m/%Y %H:%M:%S') }}
+                {% else %}
+                Nenhuma leitura registrada.
+                {% endif %}
+              </p>
             </div>
+          </div>
         </div>
 
         <div class="col-lg-4 col-md-6 mb-4">
           <div class="card h-100">
             <div class="card-header">Controle Principal</div>
             <div class="card-body">
-                <h5 class="card-title-sm">Modo de Operação</h5>
-                <div class="custom-control custom-switch custom-control-lg mb-3">
-                    <input type="checkbox" class="custom-control-input" id="modoSwitch"
-                         onchange="handleToggle('modo', this.checked ? 'MANUAL' : 'AUTOMATICO')"
-                         {% if config.modo == 'MANUAL' %}checked{% endif %}>
-                    <label class="custom-control-label" for="modoSwitch" id="modoLabel">
-                      {% if config.modo == 'MANUAL' %}Manual{% else %}Automático{% endif %}
-                    </label>
-                </div>
+              <h5 class="card-title-sm">Modo de Operação</h5>
+              <div class="custom-control custom-switch custom-control-lg mb-3">
+                <input type="checkbox" class="custom-control-input" id="modoSwitch"
+                  onchange="handleToggle('modo', this.checked ? 'MANUAL' : 'AUTOMATICO')" {% if config.modo=='MANUAL'
+                  %}checked{% endif %}>
+                <label class="custom-control-label" for="modoSwitch" id="modoLabel">
+                  {% if config.modo == 'MANUAL' %}Manual{% else %}Automático{% endif %}
+                </label>
+              </div>
 
-                <h5 class="card-title-sm mt-3">Setpoint Umidade (<span id="setpointValor">{{ "%.1f"|format(config.setpoint_umidade) }}</span>%)</h5>
-                <input type="range" class="custom-range" id="setpointSlider"
-                       min="0" max="100" step="1" 
-                       value="{{ config.setpoint_umidade }}"
-                       oninput="document.getElementById('setpointValor').innerText = this.value"
-                       onchange="handleSlider('setpoint', this.value)">
-                <small class="form-text text-muted">A bomba liga automaticamente abaixo deste valor.</small>
+              <h5 class="card-title-sm mt-3">Setpoint Umidade (<span id="setpointValor">{{
+                  "%.1f"|format(config.setpoint_umidade) }}</span>%)</h5>
+              <input type="range" class="custom-range" id="setpointSlider" min="0" max="100" step="1"
+                value="{{ config.setpoint_umidade }}"
+                oninput="document.getElementById('setpointValor').innerText = this.value"
+                onchange="handleSlider('setpoint', this.value)">
+              <small class="form-text text-muted">A bomba liga automaticamente abaixo deste valor.</small>
             </div>
           </div>
         </div>
 
-        <div class="col-lg-4 col-md-12 mb-4"> <div class="card h-100">
+        <div class="col-lg-4 col-md-12 mb-4">
+          <div class="card h-100">
             <div class="card-header">Bomba (Manual)</div>
             <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                <p class="text-muted mb-2">Ativado apenas no Modo Manual:</p>
-                <div class="custom-control custom-switch custom-control-lg">
-                  <input type="checkbox" class="custom-control-input" id="bombaSwitch"
-                         onchange="handleToggle('comando_manual', this.checked ? 1 : 0)"
-                         {% if config.comando_manual_bomba %}checked{% endif %}
-                         {% if config.modo == 'AUTOMATICO' %}disabled{% endif %}>
-                  <label class="custom-control-label" for="bombaSwitch" id="bombaLabel" style="font-size: 1.2rem;">
-                    {% if config.comando_manual_bomba %}Ligada{% else %}Desligada{% endif %}
-                  </label>
-                </div>
+              <p class="text-muted mb-2">Ativado apenas no Modo Manual:</p>
+              <div class="custom-control custom-switch custom-control-lg">
+                <input type="checkbox" class="custom-control-input" id="bombaSwitch"
+                  onchange="handleToggle('comando_manual', this.checked ? 1 : 0)" {% if config.comando_manual_bomba
+                  %}checked{% endif %} {% if config.modo=='AUTOMATICO' %}disabled{% endif %}>
+                <label class="custom-control-label" for="bombaSwitch" id="bombaLabel" style="font-size: 1.2rem;">
+                  {% if config.comando_manual_bomba %}Ligada{% else %}Desligada{% endif %}
+                </label>
+              </div>
             </div>
           </div>
         </div>
-      </div> <div class="row">
+      </div>
+      <div class="row">
         <div class="col-lg-6 mb-4">
           <div class="chart-container">
             <canvas id="graficoUmidadeSolo"></canvas>
@@ -181,10 +229,11 @@
             <canvas id="graficoLuminosidade"></canvas>
           </div>
         </div>
-      </div> <div class="row">
+      </div>
+      <div class="row">
         <div class="col-12">
           <h3 class="mb-3 text-center" style="color: #347a38;">Histórico de Leituras</h3>
-          <div class="table-responsive"> 
+          <div class="table-responsive">
             <table id="tabelaHistorico" class="display compact hover" style="width:100%">
               <thead>
                 <tr>
@@ -203,35 +252,59 @@
                   <td>{{ "%.0f"|format(linha.luminosidade) }}</td>
                   <td>
                     {% if linha.estado_bomba %}
-                      <span class="badge badge-success">Ligada</span>
+                    <span class="badge badge-success">Ligada</span>
                     {% else %}
-                      <span class="badge badge-danger">Desligada</span>
+                    <span class="badge badge-danger">Desligada</span>
                     {% endif %}
                   </td>
-                  <td>{{ linha.data_hora.strftime('%d/%m %H:%M') }}</td> </tr>
+                  <td>{{ linha.data_hora.strftime('%d/%m %H:%M') }}</td>
+                </tr>
                 {% endfor %}
               </tbody>
             </table>
           </div>
         </div>
-      </div> </div> </section>
+      </div>
+    </div>
+  </section>
 
   <section class="info_section layout_padding2" style="background-color: #254428;">
     <div class="container">
       <div class="info_items">
-         <a href="#"><div class="item "><div class="img-box box-1"><img src="" alt=""></div><div class="detail-box"><p></p></div></div></a>
-         <a href="https://iftm.edu.br/uraparquetecnologico/"><div class="item "><div class="img-box box-2"><img src="" alt=""></div><div class="detail-box"><p>IFTM Campus UPT</p></div></div></a>
-         <a href="#"><div class="item "><div class="img-box box-3"><img src="" alt=""></div><div class="detail-box"><p></p></div></div></a>
+        <a href="#">
+          <div class="item ">
+            <div class="img-box box-1"><img src="" alt=""></div>
+            <div class="detail-box">
+              <p></p>
+            </div>
+          </div>
+        </a>
+        <a href="https://iftm.edu.br/uraparquetecnologico/">
+          <div class="item ">
+            <div class="img-box box-2"><img src="" alt=""></div>
+            <div class="detail-box">
+              <p>IFTM Campus UPT</p>
+            </div>
+          </div>
+        </a>
+        <a href="#">
+          <div class="item ">
+            <div class="img-box box-3"><img src="" alt=""></div>
+            <div class="detail-box">
+              <p></p>
+            </div>
+          </div>
+        </a>
       </div>
     </div>
   </section>
-  
+
   <script>
     $(document).ready(function () {
       $('#tabelaHistorico').DataTable({
-        "order": [[ 0, "desc" ]], // Ordena por ID decrescente
+        "order": [[0, "desc"]], // Ordena por ID decrescente
         "language": { // Tradução opcional para português
-            "url": "//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json"
+          "url": "//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json"
         },
         "pageLength": 5 // Mostrar 5 linhas por padrão
       });
@@ -246,13 +319,13 @@
     const graficoUmidSolo = new Chart(ctxUmidSolo, {
       type: 'line',
       data: {
-        labels: umidades_solo.map((_, i) => i + 1), 
+        labels: umidades_solo.map((_, i) => i + 1),
         datasets: [{
           label: 'Umidade do Solo (%)', data: umidades_solo, borderColor: 'blue',
           backgroundColor: 'rgba(0, 0, 255, 0.1)', fill: true, tension: 0.2
         }]
       },
-      options: { responsive: true, maintainAspectRatio: false, plugins: { title: { display: true, text: 'Umidade do Solo (Últimas Leituras)', font: { size: 16 } }}}
+      options: { responsive: true, maintainAspectRatio: false, plugins: { title: { display: true, text: 'Umidade do Solo (Últimas Leituras)', font: { size: 16 } } } }
     });
 
     // --- GRÁFICO 2: LUMINOSIDADE ---
@@ -266,7 +339,7 @@
           backgroundColor: 'rgba(255, 165, 0, 0.1)', fill: true, tension: 0.2
         }]
       },
-      options: { responsive: true, maintainAspectRatio: false, plugins: { title: { display: true, text: 'Luminosidade (Últimas Leituras)', font: { size: 16 } }}}
+      options: { responsive: true, maintainAspectRatio: false, plugins: { title: { display: true, text: 'Luminosidade (Últimas Leituras)', font: { size: 16 } } } }
     });
 
     // --- FUNÇÕES DE CONTROLE (API) ---
@@ -278,7 +351,7 @@
           body: JSON.stringify({ chave: chave, valor: valor })
         });
         const resultado = await response.json();
-        if (resultado.status === 'ok') { console.log('Configuração atualizada:', resultado.mensagem); } 
+        if (resultado.status === 'ok') { console.log('Configuração atualizada:', resultado.mensagem); }
         else { console.error('Erro ao atualizar:', resultado.mensagem); }
       } catch (error) { console.error('Falha na requisição fetch:', error); }
     }
@@ -299,14 +372,85 @@
         document.getElementById('bombaLabel').innerText = (valor === 1 || valor === true) ? 'Ligada' : 'Desligada';
       }
     }
-    
+
     function handleSlider(chave, valor) {
       atualizarConfig(chave, parseFloat(valor));
     }
 
   </script>
-  
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Função principal que busca e atualiza os dados
+    async function fetchDashboardData() {
+      console.log("Buscando dados atualizados...");
+      try {
+        const response = await fetch("{{ url_for('main.get_dashboard_data_api') }}"); // Chama a nova API
+        const data = await response.json();
+
+        if (data.status !== 'ok') {
+          console.error("Erro ao buscar dados:", data.mensagem);
+          return;
+        }
+
+        // 1. Atualizar Cards de Status
+        const umidValor = document.getElementById('status-umidade-valor');
+        const luzValor = document.getElementById('status-luz-valor');
+        const ultimaLeitura = document.getElementById('status-ultima-leitura');
+
+        if (data.status_recente && umidValor && luzValor && ultimaLeitura) {
+          umidValor.innerText = data.status_recente.umidade_solo + "%";
+          luzValor.innerText = data.status_recente.luminosidade;
+          ultimaLeitura.innerText = "Última leitura: " + data.status_recente.data_hora;
+        }
+
+        // 2. Atualizar Gráficos
+        graficoUmidSolo.data.datasets[0].data = data.grafico_umidade;
+        graficoUmidSolo.update(); // Re-desenha o gráfico
+
+        graficoLuz.data.datasets[0].data = data.grafico_luz;
+        graficoLuz.update(); // Re-desenha o gráfico
+
+        // 3. Sincronizar Controles (para evitar dessincronização)
+        // Isso garante que se outro usuário (ou o ESP) mudar o modo, seu painel reflete
+        const config = data.configuracao;
+        const modoSwitch = document.getElementById('modoSwitch');
+        const modoLabel = document.getElementById('modoLabel');
+        const bombaSwitch = document.getElementById('bombaSwitch');
+        const setpointSlider = document.getElementById('setpointSlider');
+
+        // Sincroniza Modo
+        if (config.modo === 'MANUAL') {
+          modoSwitch.checked = true;
+          modoLabel.innerText = 'Manual';
+          bombaSwitch.disabled = false;
+        } else {
+          modoSwitch.checked = false;
+          modoLabel.innerText = 'Automático';
+          bombaSwitch.disabled = true;
+        }
+
+        // Sincroniza Setpoint (apenas se o usuário não estiver mexendo nele)
+        if (document.activeElement !== setpointSlider) {
+          setpointSlider.value = config.setpoint_umidade;
+          document.getElementById('setpointValor').innerText = parseFloat(config.setpoint_umidade).toFixed(1);
+        }
+
+        // Sincroniza Botão da Bomba
+        bombaSwitch.checked = config.comando_manual_bomba;
+        document.getElementById('bombaLabel').innerText = config.comando_manual_bomba ? 'Ligada' : 'Desligada';
+
+        // ATENÇÃO: A tabela NÃO é atualizada por este script para economizar performance.
+        // Ela só atualiza com F5 (Recarregar).
+
+      } catch (error) {
+        console.error("Falha na requisição de polling:", error);
+      }
+    }
+
+    // Inicia o "Polling": Chama a função a cada 2 segundos (2000 ms)
+    setInterval(fetchDashboardData, 2000);
+  </script>
 </body>
+
 </html>
